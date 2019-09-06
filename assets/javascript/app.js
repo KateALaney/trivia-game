@@ -71,7 +71,7 @@ function timeLeft () {
 }
 
 
-// Define load function for questions and choices.
+// Define load function for questions.
 
 function loadQuestion () {
     
@@ -88,6 +88,8 @@ function loadQuestion () {
 
         
 }
+
+// Define load function for choices.
 
 function loadChoices(choices) {
     let result = "";
