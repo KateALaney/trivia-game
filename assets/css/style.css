@@ -1,4 +1,51 @@
 body {
     background-image: url(../images/map.jpg);
     background-color: black;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+h1 {
+    font-family: "Tangerine", cursive;
+    font-size: 60px;
+}
+
+h2 {
+    font-family: "Tangerine", cursive;
+    font-size: 48px;
+    color: #B39B5B;
+}
+
+.jumbotron {
+    background-color: black;
+    color:  #B39B5B;
+    text-align: center;
+    font-family: "Tangerine", cursive;
+}
+
+.container {
+    background-color: black;
+    padding: 10px;
+}
+
+.btn-secondary {
+    background-color: black;
+    font-size: 36px;
+    color: #B39B5B;
+    border: 1px solid #B39B5B;
+}
+
+.btn-secondary:hover {
+    background-color: #B39B5B;
+    color: black;
+    border: 1px solid #B39B5B;
+}
+
+.choice {
+    font-family: "Tangerine", cursive;
+    font-size: 36px;
+    color: #B39B5B;
+    border: 1px solid #B39B5B;
+    cursor: pointer;
 }
