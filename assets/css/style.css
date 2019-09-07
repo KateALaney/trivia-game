@@ -24,6 +24,12 @@ p {
     text-align: center;
 }
 
+p:hover {
+    background-color: #B39B5B;
+    color: black;
+    border: 1px solid #B39B5B;
+}
+
 .jumbotron {
     background-color: black;
     color:  #B39B5B;

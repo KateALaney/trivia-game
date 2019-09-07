@@ -50,13 +50,31 @@ let allQuestions = [
         choices: ["Elf",  "Ent", "Enemy", "Enigma"],
         correctAnswer: "Ent"
     },
+
+    {
+        question: "True or fale: Saruman has always been evil.",
+        choices: ["True", "False"],
+        correctAnswer: "False"
+    },
+
+    {
+        question: "What precious item is the Fellowship carrying?",
+        choices: ["A bracelet", "A ring", "A necklace", "A sword"],
+        correctAnswer: "A ring"
+    },
+
+    {
+        question: "Who is in the Fellowship?",
+        choices: ["Gandalf, Aragorn, Gimli, Bilbo, Merry, Pip, Elrond, Sean Bean, Sam", "Frodo, Gimli, Aragorn, Merry, Gandalf, Pip, Legolas, Sam, Boromir", "Saruman, Legolas, Frodo, Bilbo, Gandalf, Aragorn, Elrond, Sam, Merry", "Aragorn, Gandalf, Elrond, Frodo, Sam, Pip, Merry, Legolas, Sauron"],
+        correctAnswer: "Frodo, Gimli, Aragorn, Merry, Gandalf, Pip, Legolas, Sam, Boromir"
+    },
 ]
 
 // Define a function to pass the player to the next question.
 
 function nextQuestion () {
 
-    let questionsEnd = (allQuestions.length - 1) === currentQuestion;
+    const questionsEnd = (allQuestions.length - 1) === currentQuestion;
     if (questionsEnd) {
         displayResult();
     } else {
@@ -70,8 +88,6 @@ function nextQuestion () {
 
 function timeOut() {
     clearInterval(timer);
-
-    lost++;
 
     nextQuestion();
 }
@@ -140,8 +156,18 @@ function displayResult() {
     let result = `<p>You got ${score} question(s) correct!</p>
                 <p>You got ${lost} question(s) incorrect!</p>
                 <p>Total Questions: ${allQuestions.length}</p>
-                <button>Reset Game</button>`
+                <label class="btn btn-secondary" id="restart"><p>Restart Game</p></label>`
     $("#game").html(result);
 }
+
+$(document).on("click", "#restart", function () {
+    counter = 5;
+    currentQuestion = 0;
+    score = 0;
+    lost = 0;
+    timer = null;
+
+    loadQuestion();
+});
 
 loadQuestion ();
