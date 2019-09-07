@@ -1,9 +1,9 @@
 // Define variables for timer for each question, the current question, the right questions, wrong questions, and the variable to define the timer div.
 
-let counter = 25;
+let counter = 5;
 let currentQuestion = 0;
 let score = 0;
-let wrong = 0;
+let lost = 0;
 let timer;
 
 // Define the questions, choices, and correct answers.
@@ -12,7 +12,7 @@ let allQuestions = [
     {
         question: "What is the name of the protagonist of <strong>Lord of the Rings</strong>?",
         choices: ["Bilbo Baggins", "Aragorn", "Frodo Baggins", "Gimli"],
-        answer: "Frodo Baggins"
+        correctAnswer: "Frodo Baggins"
     },
 
     {
@@ -34,7 +34,7 @@ let allQuestions = [
     },
 
     {
-        question: "What is the Gollum's true name?",
+        question: "What is Gollum's true name?",
         choices: ["Deagol", "Frodo", "Bilbo", "Smeagol"],
         correctAnswer: "Smeagol"
     },
@@ -52,13 +52,31 @@ let allQuestions = [
     },
 ]
 
+// Define a function to pass the player to the next question.
+
+function nextQuestion () {
+
+    let questionsEnd = (allQuestions.length - 1) === currentQuestion;
+    if (questionsEnd) {
+        displayResult();
+    } else {
+        currentQuestion++;
+        loadQuestion();
+    }
+    
+}
+
 // Define a function to stop the counter at 0.
 
 function timeOut() {
     clearInterval(timer);
+
+    lost++;
+
+    nextQuestion();
 }
 
-// Define a time function to time the user's answer.
+// Define a time function to time the player's answer.
 
 function timeLeft () {
     counter--;
@@ -75,18 +93,17 @@ function timeLeft () {
 
 function loadQuestion () {
     
-    counter = 25;
+    clearInterval(timer);
+    counter = 5;
     timer = setInterval(timeLeft, 1000);
 
     let askQuestion = allQuestions[currentQuestion].question;
     let choices = allQuestions[currentQuestion].choices;
-    let answer = allQuestions[currentQuestion].answer;
 
     $("#game").html(`<h2>${askQuestion}</h2>
                     ${loadChoices(choices)}`);
     $("#timer").html(`<h2>Time Left: ${counter}</h2>`);
 
-        
 }
 
 // Define load function for choices.
@@ -99,9 +116,32 @@ function loadChoices(choices) {
     return result;
 }
 
-loadQuestion ();
-
 $(document).ready(function(){
 
- 
+// Define a function for when the answer is selected to move on to the next question.
+
+ $(document).on("click", ".choice", function () {
+     let chosenAnswer = $(this).attr("data-answer");
+     let correctAnswer = allQuestions[currentQuestion].correctAnswer;
+
+    if (correctAnswer === chosenAnswer) {
+        score ++;
+        nextQuestion();
+    } else {
+        lost ++;
+        nextQuestion();
+    }
+
+ });
+
 });
+
+function displayResult() {
+    let result = `<p>You got ${score} question(s) correct!</p>
+                <p>You got ${lost} question(s) incorrect!</p>
+                <p>Total Questions: ${allQuestions.length}</p>
+                <button>Reset Game</button>`
+    $("#game").html(result);
+}
+
+loadQuestion ();

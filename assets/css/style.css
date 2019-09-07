@@ -17,6 +17,13 @@ h2 {
     color: #B39B5B;
 }
 
+p {
+    font-family: "Tangerine", cursive;
+    font-size: 36px;
+    color: #B39B5B;
+    text-align: center;
+}
+
 .jumbotron {
     background-color: black;
     color:  #B39B5B;
