@@ -1,6 +1,6 @@
 // Define variables for timer for each question, the current question, the right questions, wrong questions, and the variable to define the timer div.
 
-let counter = 5;
+let counter = 20;
 let currentQuestion = 0;
 let score = 0;
 let lost = 0;
@@ -12,63 +12,89 @@ let allQuestions = [
     {
         question: "What is the name of the protagonist of <strong>Lord of the Rings</strong>?",
         choices: ["Bilbo Baggins", "Aragorn", "Frodo Baggins", "Gimli"],
-        correctAnswer: "Frodo Baggins"
+        correctAnswer: "Frodo Baggins",
+        image: "./assets/images/bilboParty.gif"
     },
 
     {
         question: "Where is the Fellowship ultimately going?",
         choices: ["Gondor", "The Two Towers", "Rohan", "Mordor"],
-        correctAnswer: "Mordor"
+        correctAnswer: "Mordor",
+        image: "./assets/images/mordor.gif"
+        
     },
 
     {
         question: "What is the name of Elrond's home?",
         choices: ["Rivendell", "Rohan", "Dunedain", "Gondor"],
-        correctAnswer: "Rivendell"
+        correctAnswer: "Rivendell",
+        image: "./assets/images/rivendell.gif"
     },
 
     {
         question: "Fill in the blanks: 'The Eye of ____'.",
         choices: ["Gondor", "Sauron", "Saruman", "Elrond"],
-        correctAnswer: "Sauron"
+        correctAnswer: "Sauron",
+        image: "./assets/images/eyeOfSauron.gif"
     },
 
     {
         question: "What is Gollum's true name?",
         choices: ["Deagol", "Frodo", "Bilbo", "Smeagol"],
-        correctAnswer: "Smeagol"
+        correctAnswer: "Smeagol",
+        image: "./assets/images/smeagol.gif"
     },
 
     {
         question: "True or false: the Elves appeared at Helm's Deep in the original Tolkein book.",
         choices: ["True", "False"],
-        correctAnswer: "False"
+        correctAnswer: "False",
+        image: "./assets/images/helm'sDeep.gif"
     },
 
     {
         question: "Treebeard is an _____.",
         choices: ["Elf",  "Ent", "Enemy", "Enigma"],
-        correctAnswer: "Ent"
+        correctAnswer: "Ent",
+        image: "./assets/images/treebeard.gif"
     },
 
     {
         question: "True or fale: Saruman has always been evil.",
         choices: ["True", "False"],
-        correctAnswer: "False"
+        correctAnswer: "False",
+        image: "./assets/images/saruman.gif",
     },
 
     {
         question: "What precious item is the Fellowship carrying?",
         choices: ["A bracelet", "A ring", "A necklace", "A sword"],
-        correctAnswer: "A ring"
+        correctAnswer: "A ring",
+        item: "./assets/images/ring.gif"
     },
 
     {
         question: "Who is in the Fellowship?",
         choices: ["Gandalf, Aragorn, Gimli, Bilbo, Merry, Pip, Elrond, Sean Bean, Sam", "Frodo, Gimli, Aragorn, Merry, Gandalf, Pip, Legolas, Sam, Boromir", "Saruman, Legolas, Frodo, Bilbo, Gandalf, Aragorn, Elrond, Sam, Merry", "Aragorn, Gandalf, Elrond, Frodo, Sam, Pip, Merry, Legolas, Sauron"],
-        correctAnswer: "Frodo, Gimli, Aragorn, Merry, Gandalf, Pip, Legolas, Sam, Boromir"
+        correctAnswer: "Frodo, Gimli, Aragorn, Merry, Gandalf, Pip, Legolas, Sam, Boromir",
+        image: "./assets/images/fellowship.gif"
     },
 ]
+
+function loadMessage (status) {
+    let correctAnswer = allQuestions[currentQuestion].correctAnswer;
+
+    if (status === "win") {
+        $("#game").html(`<p class="load-image">Yay, you won!</p>`)
+    } else {
+        $("#game").html(`<p class="load-image">Oh, no, you lost!</p>
+                        <p class="load-image">The correct answer is ${correctAnswer}.`);
+    }
+};
+
+// Define a function to display the image after the question.
+
+
 
 // Define a function to pass the player to the next question.
 
@@ -89,7 +115,9 @@ function nextQuestion () {
 function timeOut() {
     clearInterval(timer);
 
-    nextQuestion();
+    lost++;
+    loadMessage("lost");
+    setTimeout(nextQuestion, 3 * 1000);
 }
 
 // Define a time function to time the player's answer.
@@ -104,13 +132,12 @@ function timeLeft () {
     }
 }
 
-
 // Define load function for questions.
 
-function loadQuestion () {
+function loadQuestion() {
     
     clearInterval(timer);
-    counter = 5;
+    counter = 20;
     timer = setInterval(timeLeft, 1000);
 
     let askQuestion = allQuestions[currentQuestion].question;
@@ -142,15 +169,19 @@ $(document).ready(function(){
 
     if (correctAnswer === chosenAnswer) {
         score ++;
-        nextQuestion();
+        loadMessage("win");
+        setTimeout(nextQuestion, 3 * 1000);
     } else {
         lost ++;
-        nextQuestion();
+        loadMessage("lost");
+        setTimeout(nextQuestion, 3 * 1000);
     }
 
  });
 
 });
+
+// Define a function to display the end results of the game.
 
 function displayResult() {
     let result = `<p>You got ${score} question(s) correct!</p>
@@ -160,8 +191,10 @@ function displayResult() {
     $("#game").html(result);
 }
 
+// Define a restart function.
+
 $(document).on("click", "#restart", function () {
-    counter = 5;
+    counter = 20;
     currentQuestion = 0;
     score = 0;
     lost = 0;
@@ -170,4 +203,10 @@ $(document).on("click", "#restart", function () {
     loadQuestion();
 });
 
-loadQuestion ();
+// Define a start function.
+
+$("#start").click(function() {
+    $("#start").remove();
+    $("#start").html(counter);
+    loadQuestion();
+});
